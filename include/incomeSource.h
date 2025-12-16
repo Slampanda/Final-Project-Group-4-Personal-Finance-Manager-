@@ -1,10 +1,18 @@
 #pragma once
 #include <string>
+#include <fstream>
 
-struct IncomeSource{
-    int ID;
-    string name; //"Lương", "Thưởng", "Học bổng"
+class IncomeSource {
+private:
+    int id;
+    std::string name;
+public:
+    IncomeSource(
+        int id = 0,
+        const std::string &name = ""
+    );
+    int getId() const;
+    std::string getName() const;
+    void save(std::ofstream &ofs) const;
+    void load(std::ifstream &ifs);
 };
-
-IncomeSource createIncomeSource();
-

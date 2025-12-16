@@ -1,11 +1,18 @@
 #pragma once
 #include <string>
+#include <fstream>
 
-struct Wallet{
-    int ID;
-    string name; //"Ăn uống", "Tiền nhà", "Du lịch"
-    double balance;
+class Wallet {
+private:
+    int id;
+    std::string name;
+public:
+    Wallet(
+        int id = 0,
+        const std::string &name = ""
+    );
+    int getId() const;
+    std::string getName() const;
+    void save(std::ofstream &ofs) const;
+    void load(std::ifstream &ifs);
 };
-
-Wallet createWallet();
-void updateWalletBalance(Wallet& w, double amount, bool isIncome);

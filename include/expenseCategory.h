@@ -1,11 +1,18 @@
 #pragma once
 #include <string>
+#include <fstream>
 
-struct ExpenseCategory{
-    int ID;
-    string name;
+class Category {
+private:
+    int id;
+    std::string name;
+public:
+    Category(
+        int id = 0,
+        const std::string &name = ""
+    );
+    int getId() const;
+    std::string getName() const;
+    void save(std::ofstream &ofs) const;
+    void load(std::ifstream &ifs);
 };
-
-ExpenseCategory createExpenseCategory();
-
-

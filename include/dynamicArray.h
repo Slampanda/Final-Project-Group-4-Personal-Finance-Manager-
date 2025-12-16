@@ -1,3 +1,5 @@
+#pragma once
+#include <stdexcept>
 template <typename T> // dùng dynamicArray cho nhiều dữ liệu transaction, wallet, income, expense
 class DynamicArray{
 private:
@@ -30,7 +32,7 @@ public:
     DynamicArray(const DynamicArray& other)
         : capacity(other.capacity), size(other.size){
         data = new T[capacity];
-        for (int i = 0; isize; i++){
+        for (int i = 0; i<size; i++){
             data[i] = other.data[i];
         }
     }
@@ -98,5 +100,18 @@ public:
             }
         }
         return -1;
+    }
+
+    T& operator[](int index) {
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Your choice is not available in system");
+        }
+        return data[index];
+    }
+    const T& operator[](int index) const{
+        if (index < 0 || index >= size) {
+            throw std::out_of_range("Your choice is not available in system");
+        }
+        return data[index];
     }
 };
