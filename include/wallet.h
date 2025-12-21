@@ -6,13 +6,31 @@ class Wallet {
 private:
     int id;
     std::string name;
+    double balance;
+    size_t nameLen;
+    long long nameOffset;
+    
 public:
-    Wallet(
-        int id = 0,
-        const std::string &name = ""
-    );
+    Wallet(int id = 0,
+           const std::string &name = "",
+           double balance = 0.0,
+           size_t nameLen = 0,
+           long long nameOffset = -1
+           );
+    
     int getId() const;
     std::string getName() const;
+    double getBalance() const;
+    size_t getNameLen() const;
+    long long getNameOffset() const;
+    
+    // Trước hết, không cho thực hiện đổi tên
+    void setBalance(double balance);
+    
+    // Chỉ lưu fixed-size data: walletID, balance, nameOffset
     void save(std::ofstream &ofs) const;
     void load(std::ifstream &ifs);
+    
+    // Không save name vì sẽ append
+    void loadName(std::ifstream &ifs);
 };

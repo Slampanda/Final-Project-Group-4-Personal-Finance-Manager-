@@ -1,26 +1,28 @@
-#include "Income.h"
+#include "common.h"
+#include "income.h"
 
-Income::Income(
-    const Date& date,
-    double amount,
-    int id,
-    int walletID,
-    const std::string& description,
-    int sourceID
-) : Transaction(date, amount, id, walletID, description) , sourceID(sourceID) {}
+Income::Income(const Date& date,
+               double amount,
+               int id,
+               int walletID,
+               int sourceID,
+               const string& description
+               )
+: Transaction(date, amount, id, walletID, true, sourceID, description){}
 
-void Income::setSourceID(int sourceID) {
+void Income::setSourceID(int sourceID){
     this->sourceID = sourceID;
+    setSourceCategoryID(sourceID);
 }
-int Income::getSourceID() const {
+
+int Income::getSourceID() const{
     return sourceID;
 }
 
-void Income::save(std::ofstream &ofs) const {
+void Income::save(ofstream &ofs) const{
     saveInfor(ofs);
-    ofs.write(reinterpret_cast<const char*>(&sourceID), sizeof(sourceID));
 }
-void Income::load(std::ifstream &ifs) {
+
+void Income::load(ifstream &ifs){
     loadInfor(ifs);
-    ifs.read(reinterpret_cast<char*>(&sourceID), sizeof(sourceID));
 }
