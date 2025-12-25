@@ -16,16 +16,15 @@ private:
     DynamicArray<RecurringTransaction> recurringTransactions;
     
     // Tên file
-    const std::string WALLET_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/wallets.bin";
-    const std::string SOURCE_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/sources.bin";
-    const std::string CATEGORY_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/categories.bin";
-    const std::string TRANSACTION_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/transactions.bin";
-    const std::string RECURRING_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/recurring.bin";
+    std::string WALLET_FILE = "data/wallets.bin";
+    std::string SOURCE_FILE = "data/sources.bin";
+    std::string CATEGORY_FILE = "data/categories.bin";
+    std::string TRANSACTION_FILE = "data/transactions.bin";
+    std::string RECURRING_FILE = "data/recurring.bin";
     
-    const std::string WALLET_NAME_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/walletNames.bin";
-    const std::string SOURCE_NAME_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/sourceNames.bin";
-    const std::string CATEGORY_NAME_FILE = "/Users/macair/Downloads/PersonalFinanceManager/PersonalFinanceManager/data/categoryNames.bin";
-
+    std::string WALLET_NAME_FILE = "data/walletNames.bin";
+    std::string SOURCE_NAME_FILE = "data/sourceNames.bin";
+    std::string CATEGORY_NAME_FILE = "data/categoryNames.bin";
     int nextRecurringId = 1;
 
 public:
