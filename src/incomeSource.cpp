@@ -8,13 +8,22 @@ IncomeSource::IncomeSource(int id,
                            )
 : id(id), name(name), nameLen(nameLen), nameOffset(nameOffset){}
 
-int IncomeSource::getId() const {return id;}
+int IncomeSource::getId() const{return id;}
 
 string IncomeSource::getName() const{return name;}
 
 size_t IncomeSource::getNameLen() const{return nameLen;}
 
 long long IncomeSource::getNameOffset() const{return nameOffset;}
+
+void IncomeSource::setName(const string& newName){
+    name = newName;
+    nameLen = name.length();
+}
+
+void IncomeSource::setNameLen(size_t newLen){nameLen = newLen;}
+
+void IncomeSource::setNameOffset(long long newOffset){nameOffset = newOffset;}
 
 void IncomeSource::save(ofstream &ofs) const{
     ofs.write((char*)&id, sizeof(id));

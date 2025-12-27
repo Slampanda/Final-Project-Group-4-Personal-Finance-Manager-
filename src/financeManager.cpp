@@ -8,12 +8,14 @@ FinanceManager::FinanceManager() : walletManager(WALLET_NAME_FILE),
                                    {
     loadAllData();
     // Kiểm tra không có dữ liệu thì tự tạo mẫu
+        
     if (walletManager.getSize() == 0){
+        cout << "No wallet data found. Creating sample data..." << endl;
         initializeSampleData();
     }
     processRecurringTransactions();
+    cout << "Initialization complete!" << endl;
 }
-
 
 // Core method
 void FinanceManager::loadAllData(){
@@ -23,18 +25,31 @@ void FinanceManager::loadAllData(){
     transactionManager.load(TRANSACTION_FILE);
     
     // Load recurring transactions
-    ifstream ifs(RECURRING_FILE, ios::binary);
-    if (ifs){
-        int size;
-        ifs.read(reinterpret_cast<char*>(&size), sizeof(size));
-        ifs.read(reinterpret_cast<char*>(&nextRecurringId), sizeof(nextRecurringId));
+    ifstream ifs(RECURRING_FILE, ios::binary | ios::ate);
+    
+    if (!ifs){
+        cout << "Cannot open Recurring file to load" << endl;
+        return;
+    }
+    
+    size_t fileSize = ifs.tellg();
+    if (fileSize == 0) {
+        cout << "Recurring file is empty" << endl;
+        ifs.close();
+        return;
+    }
+    
+    ifs.seekg(0, ios::beg);
+    
+    int size;
+    ifs.read(reinterpret_cast<char*>(&size), sizeof(size));
+    ifs.read(reinterpret_cast<char*>(&nextRecurringId), sizeof(nextRecurringId));
         
-        recurringTransactions.clear();
-        for (int i = 0; i<size; i++){
-            RecurringTransaction rt;
-            rt.load(ifs);
-            recurringTransactions.add(rt);
-        }
+    recurringTransactions.clear();
+    for (int i = 0; i<size; i++){
+        RecurringTransaction rt;
+        rt.load(ifs);
+        recurringTransactions.add(rt);
     }
 }
 
@@ -380,6 +395,7 @@ void FinanceManager::handleManageWallets(){
         cout << "\n==== MANAGE WALLETS ====" << endl;
         cout << "1. View All Wallets" << endl;
         cout << "2. Add New Wallet" << endl;
+        cout << "3. Rename Wallet" << endl;
         cout << "0. Back to Main Menu" << endl;
         cout << "Your choice: ";
         cin >> choice;
@@ -389,21 +405,38 @@ void FinanceManager::handleManageWallets(){
                 walletManager.showWallets();
                 break;
             }
-                
             case 2:{
                 string name;
                 double balance;
+                
                 cout << "Enter wallet name: ";
                 cin.ignore();
                 getline(cin, name);
+                
                 cout << "Enter initial balance: ";
                 cin >> balance;
+                
                 int id = walletManager.addWallet(name, balance);
                 cout << "Wallet added with ID: " << id << endl;
                 break;
             }
-            case 0:
-                return;
+            case 3:{
+                int id;
+                string newName;
+                
+                walletManager.showWallets();
+                
+                cout << "Enter wallet ID to rename: ";
+                cin >> id;
+                
+                cout << "Enter new name: ";
+                cin.ignore();
+                getline(cin, newName);
+                
+                walletManager.renameWallet(id, newName);
+            }
+            case 0: return;
+            default: cout << "Invalid choice!" << endl;
         }
     } while (choice != 0);
 }
@@ -414,6 +447,7 @@ void FinanceManager::handleManageSources(){
             cout << "\n==== MANAGE INCOME SOURCES ====" << endl;
             cout << "1. View All Sources" << endl;
             cout << "2. Add New Source" << endl;
+            cout << "3. Rename Source" << endl;
             cout << "0. Back to Main Menu" << endl;
             cout << "Your choice: ";
             cin >> choice;
@@ -423,20 +457,36 @@ void FinanceManager::handleManageSources(){
                     sourceManager.showSources();
                     break;
                 }
-                    
                 case 2:{
                     string name;
+                    
                     cout << "Enter source name: ";
                     cin.ignore();
                     getline(cin, name);
-                    if (!name.empty()) {
+                    
+                    if (!name.empty()){
                         int id = sourceManager.addSource(name);
                         cout << "Source added with ID: " << id << endl;
                     }
                     break;
                 }
-                case 0:
-                    return;
+                case 3:{
+                    int id;
+                    string newName;
+                    
+                    sourceManager.showSources();
+                    
+                    cout << "Enter source ID to rename: ";
+                    cin >> id;
+                    
+                    cout << "Enter new name: ";
+                    cin.ignore();
+                    getline(cin, newName);
+                    
+                    sourceManager.renameSource(id, newName);
+                }
+                case 0: return;
+                default: cout << "Invalid choice!" << endl;
             }
         } while (choice != 0);
 }
@@ -447,6 +497,7 @@ void FinanceManager::handleManageCategories(){
             cout << "\n==== MANAGE EXPENSE CATEGORIES ====" << endl;
             cout << "1. View All Categories" << endl;
             cout << "2. Add New Category" << endl;
+            cout << "3. Rename Category" << endl;
             cout << "0. Back to Main Menu" << endl;
             cout << "Your choice: ";
             cin >> choice;
@@ -458,17 +509,34 @@ void FinanceManager::handleManageCategories(){
                 }
                 case 2:{
                     string name;
+                    
                     cout << "Enter category name: ";
                     cin.ignore();
                     getline(cin, name);
+                    
                     if (!name.empty()) {
                         int id = categoryManager.addCategory(name);
                         cout << "Category added with ID: " << id << endl;
                     }
                     break;
                 }
-                case 0:
-                    return;
+                case 3:{
+                    int id;
+                    string newName;
+                    
+                    categoryManager.showCategories();
+                    
+                    cout << "Enter category ID to rename: ";
+                    cin >> id;
+                    
+                    cout << "Enter new name: ";
+                    cin.ignore();
+                    getline(cin, newName);
+                    
+                    categoryManager.renameCategory(id, newName);
+                }
+                case 0: return;
+                default: cout << "Invalid choice!" << endl;
             }
         } while (choice != 0);
 }

@@ -15,14 +15,8 @@ void Expense::setCategoryID(int categoryID){
     setSourceCategoryID(categoryID);
 }
 
-int Expense::getCategoryID() const{
-    return categoryID;
-}
+int Expense::getCategoryID() const{return categoryID;}
 
-void Expense::save(ofstream &ofs) const{
-    saveInfor(ofs);
-}
+void Expense::save(ofstream &ofs) const{saveInfor(ofs);}
 
-void Expense::load(ifstream &ifs){
-    loadInfor(ifs);
-}
+void Expense::load(ifstream &ifs){loadInfor(ifs);}

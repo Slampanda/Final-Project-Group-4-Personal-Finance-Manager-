@@ -8,9 +8,10 @@ protected:
     double amount;
     int id;
     int walletID;
-    bool isIncome; //tui muốn thêm 2 cái này vào để lưu data về giao dịch cho dễ á
+    bool isIncome;
     int sourceCategoryID;
     std::string description;
+    
 public:
     Transaction(const Date& date = Date(),
                 double amount = 0,
@@ -43,6 +44,3 @@ public:
     virtual void save(std::ofstream& ofs) const = 0;
 
 };
-
-//Transaction createTransaction();
-//void displayTransaction(const Transaction& t);

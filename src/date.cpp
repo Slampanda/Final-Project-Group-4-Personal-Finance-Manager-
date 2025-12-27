@@ -17,6 +17,7 @@ bool Date::isLeapYear() const{
 }
 
 bool Date::isValid() const{
+    if (day == 0 && month == 0 && year == 0){return true;}
     if (month < 1 || month > 12){return false;}
     if (day < 1 || day > 31){return false;}
     if (month == 2){

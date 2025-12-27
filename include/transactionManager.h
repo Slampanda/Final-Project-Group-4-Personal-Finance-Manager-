@@ -43,11 +43,11 @@ public:
                     );
     
     // Display method
-    void showIncome(const ManagerWallet &mw, const SourceManager &im) const;
-    void showExpense(const ManagerWallet &mw, const CategoryManager &cm) const;
+    void showIncome(const WalletManager &wm, const SourceManager &im) const;
+    void showExpense(const WalletManager &wm, const CategoryManager &cm) const;
     
     // Display all transaction (sorted by date)
-    void showAllTransactions(const ManagerWallet &mw, const SourceManager &im, const CategoryManager &cm) const;
+    void showAllTransactions(const WalletManager &wm, const SourceManager &im, const CategoryManager &cm) const;
     
     // Basic statistics
     double getTotalIncome() const;

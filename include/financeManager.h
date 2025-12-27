@@ -10,21 +10,22 @@
 class FinanceManager{
 private:
     TransactionManager transactionManager;
-    ManagerWallet walletManager;
+    WalletManager walletManager;
     SourceManager sourceManager;
     CategoryManager categoryManager;
     DynamicArray<RecurringTransaction> recurringTransactions;
     
     // Tên file
-    std::string WALLET_FILE = "data/wallets.bin";
-    std::string SOURCE_FILE = "data/sources.bin";
-    std::string CATEGORY_FILE = "data/categories.bin";
-    std::string TRANSACTION_FILE = "data/transactions.bin";
-    std::string RECURRING_FILE = "data/recurring.bin";
+    const std::string WALLET_FILE = "data/wallets.bin";
+    const std::string SOURCE_FILE = "data/sources.bin";
+    const std::string CATEGORY_FILE = "data/categories.bin";
+    const std::string TRANSACTION_FILE = "data/transactions.bin";
+    const std::string RECURRING_FILE = "data/recurring.bin";
     
-    std::string WALLET_NAME_FILE = "data/walletNames.bin";
-    std::string SOURCE_NAME_FILE = "data/sourceNames.bin";
-    std::string CATEGORY_NAME_FILE = "data/categoryNames.bin";
+    const std::string WALLET_NAME_FILE = "data/walletNames.bin";
+    const std::string SOURCE_NAME_FILE = "data/sourceNames.bin";
+    const std::string CATEGORY_NAME_FILE = "data/categoryNames.bin";
+
     int nextRecurringId = 1;
 
 public:

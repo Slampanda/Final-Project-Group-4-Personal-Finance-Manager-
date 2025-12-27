@@ -40,7 +40,7 @@ void TransactionManager::addExpense(const Date& date,
     cout << "Expense added. Wallet " << walletID << " decreased by " << formatNumber(amount) << endl;
 }
 
-void TransactionManager::showIncome(const ManagerWallet &mw, const SourceManager &im) const{
+void TransactionManager::showIncome(const WalletManager &wm, const SourceManager &im) const{
     cout << "================== LIST INCOMES ==================" << endl;
     cout << left
          << setw(6)  << "ID"
@@ -59,7 +59,7 @@ void TransactionManager::showIncome(const ManagerWallet &mw, const SourceManager
              << setw(6)  << inc.getID()
              << setw(12) << inc.getDate()
              << setw(18) << amountFormmated
-             << setw(15) << mw.getWalletNameFromId(inc.getWalletID())
+             << setw(15) << wm.getWalletNameFromId(inc.getWalletID())
              << setw(15) << im.getSourceNameFromId(inc.getSourceID())
              << endl;
     }
@@ -70,7 +70,7 @@ void TransactionManager::showIncome(const ManagerWallet &mw, const SourceManager
     cout << "Total income: " << totalFormatted << endl;
 }
 
-void TransactionManager::showExpense(const ManagerWallet &mw, const CategoryManager &cm) const{
+void TransactionManager::showExpense(const WalletManager &wm, const CategoryManager &cm) const{
     cout << "==================LIST EXPENSES==================" << endl;
     cout << left
          << setw(6) << "ID"
@@ -89,7 +89,7 @@ void TransactionManager::showExpense(const ManagerWallet &mw, const CategoryMana
              << setw(6) << exp.getID()
              << setw(12) << exp.getDate()
              << setw(18) << amountFormatted
-             << setw(15) << mw.getWalletNameFromId(exp.getWalletID())
+             << setw(15) << wm.getWalletNameFromId(exp.getWalletID())
              << setw(15) << cm.getCategoryNameFromId(exp.getCategoryID())
              << endl;
     }
@@ -163,7 +163,7 @@ double TransactionManager::getWalletExpenseBetween(int walletID, const Date& sta
     return total;
 }
 
-void TransactionManager::showAllTransactions(const ManagerWallet &mw, const SourceManager &im, const CategoryManager &cm) const{
+void TransactionManager::showAllTransactions(const WalletManager &wm, const SourceManager &im, const CategoryManager &cm) const{
     cout << "\n====== ALL TRANSACTIONS (SORTED BY DATE) ======" << endl;
     
     DynamicArray<const Transaction*> allTransactions;
@@ -194,10 +194,10 @@ void TransactionManager::showAllTransactions(const ManagerWallet &mw, const Sour
     cout << left
          << setw(8) << "ID"
          << setw(10) << "Type"
-         << setw(12) << "Date"
-         << setw(20) << "Amount"
+         << setw(15) << "Date"
+         << setw(25) << "Amount"
          << setw(20) << "Wallet"
-         << setw(20) << "Source/Category" << endl;
+         << setw(25) << "Source/Category" << endl;
     cout << "--------------------------------------------------" << endl;
 
     // Display each transaction
@@ -209,15 +209,16 @@ void TransactionManager::showAllTransactions(const ManagerWallet &mw, const Sour
         cout << left
              << setw(8) << t -> getID()
              << setw(10) << (t -> getIsIncome() ? "INCOME" : "EXPENSE")
-             << setw(12) << t -> getDate()
-             << setw(20) << amountFormatted
-             << setw(20) << mw.getWalletNameFromId(t -> getWalletID());
+             << t -> getDate()
+             << "     "
+             << setw(25) << amountFormatted
+             << setw(20) << wm.getWalletNameFromId(t -> getWalletID());
         
         if (t -> getIsIncome()){
-            cout << setw(20) << im.getSourceNameFromId(t -> getSourceCategoryID());
+            cout << setw(25) << im.getSourceNameFromId(t -> getSourceCategoryID());
         }
         else{
-            cout << setw(20) << cm.getCategoryNameFromId(t -> getSourceCategoryID());
+            cout << setw(25) << cm.getCategoryNameFromId(t -> getSourceCategoryID());
         }
         cout << endl;
     }
@@ -364,11 +365,21 @@ void TransactionManager::save(const string &filename) const {
     }
 }
 void TransactionManager::load(const string &filename) {
-    ifstream ifs(filename.c_str(), ios::binary);
+    ifstream ifs(filename, ios::binary | ios::ate);
     if (!ifs){
-        cout << "Cannot open Transactions file to load" << endl;
+        cout << "Cannot open Transaction file to load" << endl;
         return;
     }
+    
+    size_t fileSize = ifs.tellg();
+    if (fileSize == 0) {
+        cout << "Transaction file is empty" << endl;
+        ifs.close();
+        return;
+    }
+    
+    ifs.seekg(0, ios::beg);
+    
     incomes.clear();
     expenses.clear();
     ifs.read((char*)&nextTransaction, sizeof(nextTransaction));

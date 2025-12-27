@@ -5,12 +5,26 @@ Wallet::Wallet(int id, const string &name, double balance, size_t nameLen, long 
 : id(id), name(name), balance(balance), nameLen(nameLen), nameOffset(nameOffset){}
 
 int Wallet::getId() const{return id;}
+
 string Wallet::getName() const{return name;}
+
 double Wallet::getBalance() const{return balance;}
+
 size_t Wallet::getNameLen() const{return nameLen;}
+
 long long Wallet::getNameOffset() const{return nameOffset;}
 
+void Wallet::setName(const string& newName){
+    name = newName;
+    nameLen = name.length();
+}
+
 void Wallet::setBalance(double newBalance){balance = newBalance;}
+
+void Wallet::setNameLen(size_t newLen){nameLen = newLen;}
+
+void Wallet::setNameOffset(long long newOffset){nameOffset = newOffset;}
+
 
 void Wallet::save(ofstream &ofs) const{
     ofs.write((char*)&id, sizeof(id));

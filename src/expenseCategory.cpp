@@ -16,6 +16,15 @@ size_t ExpenseCategory::getNameLen() const{return nameLen;}
 
 long long ExpenseCategory::getNameOffset() const{return nameOffset;}
 
+void ExpenseCategory::setName(const string& newName){
+    name = newName;
+    nameLen = name.length();
+}
+
+void ExpenseCategory::setNameLen(size_t newLen){nameLen = newLen;}
+
+void ExpenseCategory::setNameOffset(long long newOffset){nameOffset = newOffset;}
+
 void ExpenseCategory::save(ofstream &ofs) const{
     ofs.write((char*)&id, sizeof(id));
     ofs.write((char*)&nameLen, sizeof(nameLen));

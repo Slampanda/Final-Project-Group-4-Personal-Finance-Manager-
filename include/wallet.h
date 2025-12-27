@@ -24,13 +24,15 @@ public:
     size_t getNameLen() const;
     long long getNameOffset() const;
     
-    // Trước hết, không cho thực hiện đổi tên
-    void setBalance(double balance);
+    void setName(const std::string& newName);
+    void setBalance(double newBalance);
+    void setNameLen(size_t newLen);
+    void setNameOffset(long long newOffset);
     
-    // Chỉ lưu fixed-size data: walletID, balance, nameOffset
+    // Chỉ lưu fixed-size data: walletID, balance, nameLen, nameOffset
     void save(std::ofstream &ofs) const;
     void load(std::ifstream &ifs);
     
-    // Không save name vì sẽ append
+    // Lưu và hiển thị Name
     void loadName(std::ifstream &ifs);
 };

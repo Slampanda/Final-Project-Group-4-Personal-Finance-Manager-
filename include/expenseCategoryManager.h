@@ -8,16 +8,23 @@ private:
     int nextCategoryID = 1;
     std::string namePoolFile;
 
-    long long addToNamePool(const std::string& name);
+    long long calculateNameOffset() const;
 
 public:
     CategoryManager(const std::string& nameFile = "data/categoryNames.bin");
     
-    int addCategory(const std::string &name);
+    int addCategory(const std::string& name);
+    
     std::string getCategoryNameFromId(int id) const;
+    
+    void renameCategory(int id, const std::string& newName);
+
     void showCategories() const;
     
-    void save(const std::string &filename) const;
-    void load(const std::string &filename);
     int getSize() const;
+    
+    void save(const std::string& filename) const;
+    void load(const std::string& filename);
+    
+    void rebuildAndSaveNamePool();
 };

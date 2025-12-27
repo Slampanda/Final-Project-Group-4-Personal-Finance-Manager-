@@ -21,6 +21,10 @@ public:
     size_t getNameLen() const;
     long long getNameOffset() const;
     
+    void setName(const std::string& newName);
+    void setNameLen(size_t newLen);
+    void setNameOffset(long long newOffset);
+    
     void save(std::ofstream &ofs) const;
     void load(std::ifstream &ifs);
     

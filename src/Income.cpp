@@ -15,14 +15,8 @@ void Income::setSourceID(int sourceID){
     setSourceCategoryID(sourceID);
 }
 
-int Income::getSourceID() const{
-    return sourceID;
-}
+int Income::getSourceID() const{return sourceID;}
 
-void Income::save(ofstream &ofs) const{
-    saveInfor(ofs);
-}
+void Income::save(ofstream &ofs) const{saveInfor(ofs);}
 
-void Income::load(ifstream &ifs){
-    loadInfor(ifs);
-}
+void Income::load(ifstream &ifs){loadInfor(ifs);}
