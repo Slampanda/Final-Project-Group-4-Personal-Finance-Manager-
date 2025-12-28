@@ -6,14 +6,13 @@ FinanceManager::FinanceManager() : walletManager(WALLET_NAME_FILE),
                                    sourceManager(SOURCE_NAME_FILE),
                                    categoryManager(CATEGORY_NAME_FILE)
                                    {
-    Date currentDate = Date::getCurrentDate();
+    currentDate = Date::getCurrentDate();
                                            
     // Cho phép người dùng thay đổi nếu muốn
     cout << "\n=== PERSONAL FINANCE MANAGER ===" << endl;
     cout << "System date detected: " << currentDate << endl;
     cout << "Press Enter to use this date, or enter new date (dd mm yyyy): ";
                                            
-    cin.ignore();
     string input;
     getline(cin, input);
                                 
@@ -97,13 +96,6 @@ void FinanceManager::saveAllData() const{
 }
 
 void FinanceManager::processRecurringTransactions(){
-    Date currentDate;
-    // Giả sử currentDate là ngày hiện tại
-    // Trong thực tế: currentDate = Date::getCurrentDate();
-    
-    // Đơn giản: dùng ngày 1/1/2024 cho demo
-    currentDate = Date(1, 1, 2024);
-    
     for (int i = 0; i<recurringTransactions.getSize(); i++){
         if (recurringTransactions[i].shouldProcess(currentDate)){
             
@@ -158,16 +150,16 @@ void FinanceManager::showDashboard() const{
     cout << "TOTAL BALANCE: " << formatNumber(totalBalance) << endl;
     
     // Tính income/expense tháng này
-    Date today; // Ngày hiện tại
+    Date today = currentDate; // Ngày hiện tại
     Date firstOfMonth(1, today.month, today.year); // Ngày đầu tháng
     double monthlyIncome = transactionManager.getTotalIncomeBetween(firstOfMonth, today);
     double monthlyExpense = transactionManager.getTotalExpenseBetween(firstOfMonth, today);
     double monthlyNet = monthlyIncome - monthlyExpense;
     
     cout << "\nTHIS MONTH:" << endl;
-    cout << "Income: " << monthlyIncome << endl;
-    cout << "Expense: " << monthlyExpense << endl;
-    cout << "Net: " << monthlyNet << endl;
+    cout << "Income: " << formatNumber(monthlyIncome) << endl;
+    cout << "Expense: " << formatNumber(monthlyExpense) << endl;
+    cout << "Net: " << formatNumber(monthlyNet) << endl;
     cout << "==============================" << endl;
 }
 
@@ -242,17 +234,17 @@ void FinanceManager::showTimeBasedStats(const Date& start, const Date& end) cons
     double net = income - expense;
     
     cout << fixed << setprecision(2);
-    cout << "Total income: " << income << endl;
-    cout << "Total expense: " << expense << endl;
-    cout << "Net balance: " << net << endl;
+    cout << "Total income: " << formatNumber(income) << endl;
+    cout << "Total expense: " << formatNumber(expense) << endl;
+    cout << "Net balance: " << formatNumber(net) << endl;
     
     int days = start.daysBetweeen(end) + 1;
     cout << "Days in period: " << days << endl;
     
     if (days > 0){
-        cout << "Average Daily Income: " << (income / days) << endl;
-        cout << "Average Daily Expense: " << (expense / days) << endl;
-        cout << "Average Daily Net: " << (net / days) << endl;
+        cout << "Average Daily Income: " << formatNumber(income / days) << endl;
+        cout << "Average Daily Expense: " << formatNumber(expense / days) << endl;
+        cout << "Average Daily Net: " << formatNumber(net / days) << endl;
     }
     
     if (income > 0){
@@ -279,13 +271,13 @@ void FinanceManager::showWalletStats(int walletID, const Date& start, const Date
     double net = income - expense;
     
     cout << fixed << setprecision(2);
-    cout << "Income: " << income << endl;
-    cout << "Expense: " << expense << endl;
-    cout << "Net: " << net << endl;
+    cout << "Income: " << formatNumber(income) << endl;
+    cout << "Expense: " << formatNumber(expense) << endl;
+    cout << "Net: " << formatNumber(net) << endl;
     
     // Hiển thị balance hiện tại
     double currentBalance = walletManager.getWalletBalance(walletID);
-    cout << "Current Balance: " << currentBalance << endl;
+    cout << "Current Balance: " << formatNumber(currentBalance) << endl;
 }
 
 void FinanceManager::showIncomeBreakdown(const Date& start, const Date& end) const{
@@ -305,7 +297,7 @@ void FinanceManager::showIncomeBreakdown(const Date& start, const Date& end) con
     }
     
     cout << "----------------------" << endl;
-    cout << "Total Income: " << totalIncome << endl;
+    cout << "Total Income: " << formatNumber(totalIncome) << endl;
 }
 
 void FinanceManager::showExpenseBreakdown(const Date& start, const Date& end) const{
@@ -325,7 +317,7 @@ void FinanceManager::showExpenseBreakdown(const Date& start, const Date& end) co
     }
     
     cout << "----------------------" << endl;
-    cout << "Total Expense: " << totalExpense << endl;
+    cout << "Total Expense: " << formatNumber(totalExpense) << endl;
 }
 
 void FinanceManager::showNetBalanceReport(const Date& start, const Date& end) const{

@@ -27,6 +27,8 @@ private:
     const std::string CATEGORY_NAME_FILE = "data/categoryNames.bin";
 
     int nextRecurringId = 1;
+    
+    Date currentDate;
 
 public:
     FinanceManager();
