@@ -33,24 +33,22 @@ void Date::save(ofstream& ofs) const{
     ofs.write(reinterpret_cast<const char*>(&year), sizeof(year));
 }
 
-void Date::load(ifstream& ifs) {
+void Date::load(ifstream& ifs){
     ifs.read(reinterpret_cast<char*>(&day), sizeof(day));
     ifs.read(reinterpret_cast<char*>(&month), sizeof(month));
     ifs.read(reinterpret_cast<char*>(&year), sizeof(year));
 }
 
-ostream& operator<<(ostream& os, const Date& d) {
-    ostream::fmtflags f = os.flags();
-    char oldFill = os.fill();
-
-    os << setw(2) << setfill('0') << d.day << "/" << setw(2) << setfill('0') << d.month << "/" << d.year;
-
-    os.flags(f);
-    os.fill(oldFill);
+ostream& operator<<(ostream& os, const Date& d){
+    stringstream ss;
+    ss << setw(2) << setfill('0') << d.day << "/"
+       << setw(2) << setfill('0') << d.month << "/"
+       << d.year;
+    os << ss.str();
     return os;
 }
 
-istream& operator>>(istream& is, Date& date) {
+istream& operator>>(istream& is, Date& date){
     char slash;
     is >> date.day >> slash >> date.month >> slash >> date.year;
     return is;
