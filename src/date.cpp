@@ -33,13 +33,13 @@ void Date::save(ofstream& ofs) const{
     ofs.write(reinterpret_cast<const char*>(&year), sizeof(year));
 }
 
-void Date::load(ifstream& ifs){
+void Date::load(ifstream& ifs) {
     ifs.read(reinterpret_cast<char*>(&day), sizeof(day));
     ifs.read(reinterpret_cast<char*>(&month), sizeof(month));
     ifs.read(reinterpret_cast<char*>(&year), sizeof(year));
 }
 
-ostream& operator<<(ostream& os, const Date& d){
+ostream& operator<<(ostream& os, const Date& d) {
     stringstream ss;
     ss << setw(2) << setfill('0') << d.day << "/"
        << setw(2) << setfill('0') << d.month << "/"
@@ -48,7 +48,7 @@ ostream& operator<<(ostream& os, const Date& d){
     return os;
 }
 
-istream& operator>>(istream& is, Date& date){
+istream& operator>>(istream& is, Date& date) {
     char slash;
     is >> date.day >> slash >> date.month >> slash >> date.year;
     return is;
@@ -66,4 +66,16 @@ int Date::daysBetweeen(const Date& other) const{
     int days1 = this -> toDays();
     int days2 = other.toDays();
     return abs(days1 - days2);
+}
+
+Date Date::getCurrentDate() {
+    // Lấy thời gian hiện tại
+    auto now = std::chrono::system_clock::now();
+    std::time_t now_time = std::chrono::system_clock::to_time_t(now);
+    std::tm* local_time = std::localtime(&now_time);
+    
+    // Tạo Date object từ thông tin hệ thống
+    return Date(local_time->tm_mday,
+                local_time->tm_mon + 1,  // tm_mon: 0-11
+                local_time->tm_year + 1900); // tm_year: năm từ 1900
 }

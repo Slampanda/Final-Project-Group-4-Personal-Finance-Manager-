@@ -6,6 +6,30 @@ FinanceManager::FinanceManager() : walletManager(WALLET_NAME_FILE),
                                    sourceManager(SOURCE_NAME_FILE),
                                    categoryManager(CATEGORY_NAME_FILE)
                                    {
+    Date currentDate = Date::getCurrentDate();
+                                           
+    // Cho phép người dùng thay đổi nếu muốn
+    cout << "\n=== PERSONAL FINANCE MANAGER ===" << endl;
+    cout << "System date detected: " << currentDate << endl;
+    cout << "Press Enter to use this date, or enter new date (dd mm yyyy): ";
+                                           
+    cin.ignore();
+    string input;
+    getline(cin, input);
+                                
+    if (!input.empty()){
+        stringstream ss(input);
+        int d, m, y;
+        if (ss >> d >> m >> y) {
+            try {
+                currentDate = Date(d, m, y);
+                cout << "Date set to: " << currentDate << endl;
+            } catch (...) {
+                cout << "Invalid date. Using system date." << endl;
+            }
+        }
+    }
+                                       
     loadAllData();
     // Kiểm tra không có dữ liệu thì tự tạo mẫu
         
